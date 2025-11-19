@@ -29,5 +29,42 @@
         </div>
     </div>
     <footer class="footer">&copy; 2025 Dharma Wanita Persatuan Dinas Pekerjaan Umum Sumber Daya Air Provinsi Jawa Timur</footer>
+    
+    <script>
+    // 1. Cegah back button - redirect ke halaman utama jika user menekan back
+    window.history.pushState(null, '', window.location.href);
+    window.addEventListener('popstate', function() {
+        window.history.pushState(null, '', window.location.href);
+        window.location.replace('/');
+    });
+
+    // 2. Auto redirect/logout setelah 60 detik tidak ada aktivitas
+    let idleTimer;
+    const idleTimeout = 60000; // 60 detik
+    const isAdmin = {{ session('is_admin', false) ? 'true' : 'false' }};
+
+    function resetIdleTimer() {
+        clearTimeout(idleTimer);
+        idleTimer = setTimeout(function() {
+            if(isAdmin) {
+                // Admin: logout dulu baru redirect
+                var form = document.getElementById('logout-form-digital');
+                if(form) form.submit();
+                else window.location.replace('/');
+            } else {
+                // User biasa: langsung redirect
+                window.location.replace('/');
+            }
+        }, idleTimeout);
+    }
+
+    // Reset timer saat ada aktivitas
+    ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'].forEach(function(event) {
+        document.addEventListener(event, resetIdleTimer, true);
+    });
+
+    // Mulai timer
+    resetIdleTimer();
+    </script>
 </body>
 </html>

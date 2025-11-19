@@ -26,6 +26,24 @@
                 <h2>KATALOG BUKU FISIK</h2>
                 <p class="katalog-desc">Silakan mencatat judul buku atau kode buku kemudian cari pada rak yang telah tersedia di area Pojok Baca.</p>
                 <p class="katalog-desc" style="margin-top:6px; color:#0f766e;">Jumlah buku saat ini: <strong>{{ number_format($rows->total()) }}</strong></p>
+                
+                @if(session('is_admin', false))
+                <!-- Upload Katalog untuk Admin -->
+                <div style="margin-top:20px; padding:15px; background:#fff; border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,0.08);">
+                    <form action="/admin/katalog/upload" method="POST" enctype="multipart/form-data" style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+                        @csrf
+                        <label style="font-weight:600; color:#2d3a4a;">📂 Update Katalog:</label>
+                        <input type="file" name="file" accept=".xlsx,.xls" required style="padding:8px; border:1.5px solid #e0ecff; border-radius:8px; flex:1; min-width:200px;">
+                        <button type="submit" style="background:#2ec4b6; color:#fff; border:none; padding:10px 24px; border-radius:8px; font-weight:600; cursor:pointer; box-shadow:0 2px 8px rgba(44,200,180,0.2);">⬆️ Upload</button>
+                    </form>
+                    @if(session('status'))
+                        <p style="margin-top:10px; padding:8px; background:#d4edda; color:#155724; border-radius:6px; font-size:0.9em;">{{ session('status') }}</p>
+                    @endif
+                    @if($errors->has('file'))
+                        <p style="margin-top:10px; padding:8px; background:#f8d7da; color:#721c24; border-radius:6px; font-size:0.9em;">{{ $errors->first('file') }}</p>
+                    @endif
+                </div>
+                @endif
             </div>
             <form class="katalog-search container-center" method="GET" action="/katalog">
                 <div class="search-wrap" style="display:flex; gap:10px; align-items:center;">
@@ -121,9 +139,42 @@ document.querySelectorAll('.header-menu a[href="/"]').forEach(function(link) {
     link.addEventListener('click', function(e) {
         e.preventDefault();
         window.location.replace('/');
-        // Atau, jika ingin benar-benar hapus history, bisa pakai location.assign dan pushState kosong
-        // history.pushState(null, '', '/');
     });
 });
+
+// 1. Cegah back button - redirect ke halaman utama jika user menekan back
+window.history.pushState(null, '', window.location.href);
+window.addEventListener('popstate', function() {
+    window.history.pushState(null, '', window.location.href);
+    window.location.replace('/');
+});
+
+// 2. Auto redirect/logout setelah 60 detik tidak ada aktivitas
+let idleTimer;
+const idleTimeout = 60000; // 60 detik
+const isAdmin = {{ session('is_admin', false) ? 'true' : 'false' }};
+
+function resetIdleTimer() {
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(function() {
+        if(isAdmin) {
+            // Admin: logout dulu baru redirect
+            var form = document.getElementById('logout-form-fisik');
+            if(form) form.submit();
+            else window.location.replace('/');
+        } else {
+            // User biasa: langsung redirect
+            window.location.replace('/');
+        }
+    }, idleTimeout);
+}
+
+// Reset timer saat ada aktivitas
+['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'].forEach(function(event) {
+    document.addEventListener(event, resetIdleTimer, true);
+});
+
+// Mulai timer
+resetIdleTimer();
 </script>
 </html>

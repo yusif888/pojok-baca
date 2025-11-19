@@ -23,7 +23,17 @@
             <div class="notice error">{{ $errors->first('file') }}</div>
         @endif
         <div class="top-actions">
-            <div>Total: {{ $tamus->total() }} tamu</div>
+            <div>
+                <strong>Menampilkan {{ $tamus->firstItem() }} - {{ $tamus->lastItem() }} dari {{ $tamus->total() }} tamu</strong>
+                @if($month || $year)
+                    <span style="color:#666; font-size:0.9em;">
+                        (Filter: 
+                        @if($month) Bulan {{ $month }} @endif
+                        @if($year) Tahun {{ $year }} @endif
+                        )
+                    </span>
+                @endif
+            </div>
             <form method="POST" action="/logout" class="m-0">
                 @csrf
                 <button type="submit" class="logout-btn">Logout</button>

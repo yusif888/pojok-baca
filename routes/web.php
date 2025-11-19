@@ -21,9 +21,34 @@ Route::get('/beranda', function () {
 // Halaman buku tamu (tabel daftar tamu)
 Route::get('/buku-tamu', function(Request $request) {
     $isAdmin = session('is_admin', false);
-    // Paginate 20 per halaman untuk publik
-    $tamus = BukuTamu::orderByDesc('id')->paginate(20);
-    return view('buku-tamu', compact('tamus', 'isAdmin'));
+    
+    // Filter untuk admin
+    $month = $request->query('month');
+    $year = $request->query('year');
+    $allowedPerPage = [10,20,30,50,100];
+    $perPage = (int) $request->query('per_page', 20);
+    if(!in_array($perPage, $allowedPerPage)) { $perPage = 20; }
+
+    $query = BukuTamu::query();
+    
+    // Apply filter hanya jika admin
+    if($isAdmin) {
+        if($month) { $query->whereMonth('tanggal_kunjungan', (int)$month); }
+        if($year) { $query->whereYear('tanggal_kunjungan', (int)$year); }
+    }
+    
+    $query->orderByDesc('tanggal_kunjungan')->orderByDesc('id');
+    $tamus = $query->paginate($isAdmin ? $perPage : 20)->withQueryString();
+
+    // Build year options based on data range (untuk admin)
+    $firstDate = BukuTamu::whereNotNull('tanggal_kunjungan')
+        ->orderBy('tanggal_kunjungan', 'asc')
+        ->value('tanggal_kunjungan');
+    $startYear = $firstDate ? Carbon::parse($firstDate)->year : Carbon::now('Asia/Jakarta')->year;
+    $currentYear = Carbon::now('Asia/Jakarta')->year;
+    $years = range($startYear, $currentYear);
+    
+    return view('buku-tamu', compact('tamus', 'isAdmin', 'years', 'month', 'year', 'perPage', 'allowedPerPage'));
 });
 
 // Upload/update katalog (admin only)
