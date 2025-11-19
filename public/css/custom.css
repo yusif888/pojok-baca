@@ -153,9 +153,27 @@ footer.footer {
 .katalog-search .search-input { display:block; width:100%; }
 
 /* Shared header navigation */
-.header-menu { display:flex; justify-content:center; gap:48px; background:rgba(255,255,255,0.92); box-shadow:0 2px 16px rgba(44,200,180,0.10); padding:24px 0 18px 0; font-size:1.15em; font-weight:700; border-bottom-left-radius:24px; border-bottom-right-radius:24px; margin:0; position:relative; z-index:2; }
+.header-menu { display:flex; justify-content:center; align-items:center; gap:48px; background:rgba(255,255,255,0.92); box-shadow:0 2px 16px rgba(44,200,180,0.10); padding:24px 28px 18px 28px; font-size:1.15em; font-weight:700; border-bottom-left-radius:24px; border-bottom-right-radius:24px; margin:0; position:relative; z-index:2; }
 .header-menu a { color:#2ec4b6; text-decoration:none; padding:12px 28px; border-radius:10px; transition:background .2s, color .2s; }
 .header-menu a.active, .header-menu a:hover { background:linear-gradient(90deg,#ffb347 0%,#6a82fb 100%); color:#fff; }
+
+/* Logout button in header - sama dengan menu lainnya */
+.btn-logout-header {
+    background: transparent;
+    color: #2ec4b6;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 1em;
+    text-decoration: none;
+    transition: background .2s, color .2s;
+}
+.btn-logout-header:hover {
+    background: linear-gradient(90deg, #ffb347 0%, #6a82fb 100%);
+    color: #fff;
+}
 
 /* Profile helpers */
 .badge { display:inline-block; }
@@ -274,6 +292,44 @@ body.admin-page .pagination .active{ background:#2ec4b6; color:#fff; }
     .home-logo-cluster img { height: 56px; }
     .home-logo-cluster img.logo-puspa { height: 64px; }
 }
+
+/* Home: Admin Login Button - pojok kanan atas */
+.btn-admin-login-home {
+    position: fixed;
+    top: 16px;
+    right: 20px;
+    z-index: 150;
+    background: linear-gradient(135deg, #667eea 0%, #10b981 100%);
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    transition: transform 0.3s, box-shadow 0.3s;
+    font-size: 1rem;
+}
+.btn-admin-login-home:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+}
+.btn-admin-login-home .admin-icon {
+    font-size: 1.2em;
+}
+@media (max-width: 900px) {
+    .btn-admin-login-home {
+        top: 12px;
+        right: 12px;
+        padding: 10px 18px;
+        font-size: 0.9rem;
+    }
+}
+
 /* ========================= */
 /* Utilities                 */
 /* ========================= */

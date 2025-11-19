@@ -16,6 +16,11 @@
                     <img src="{{ asset('images/lgdwp.png') }}" alt="Logo DWP" />
                     <img src="{{ asset('images/lgpuspa1.png') }}" alt="Logo PUSPA" class="logo-puspa" />
                 </div>
+                <!-- Tombol Login Admin di pojok kanan atas -->
+                <a href="/login" class="btn-admin-login-home">
+                    <span class="admin-icon">🔐</span>
+                    <span>Admin</span>
+                </a>
                 <button class="btn-mulai btn-mulai-bawah" id="btnMulai">Mulai Baca</button>
                 <!-- Modal Pop Up Buku Pengunjung -->
                 <div id="modalBukuTamu" class="modal">

@@ -14,7 +14,8 @@ Route::get('/', function () {
 });
 
 Route::get('/beranda', function () {
-    return view('beranda');
+    $isAdmin = session('is_admin', false);
+    return view('beranda', compact('isAdmin'));
 });
 
 // Halaman buku tamu (tabel daftar tamu)
@@ -59,13 +60,13 @@ Route::post('/login', function(Request $request) {
     $admin = DB::table('admins')->where('username', $request->username)->first();
     if($admin && Hash::check($request->password, $admin->password)) {
         session(['is_admin'=>true]);
-        return redirect('/admin/buku-tamu');
+        return redirect('/beranda');
     }
     return back()->withErrors(['username'=>'Login gagal']);
 });
 Route::post('/logout', function() {
     session()->forget('is_admin');
-    return redirect('/buku-tamu');
+    return redirect('/');
 });
 
 // Halaman admin buku tamu (tanpa sensor, perlu login)

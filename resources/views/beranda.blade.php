@@ -16,6 +16,12 @@
             <a href="/beranda" class="active">Beranda</a>
             <a href="/buku-tamu">Buku Pengunjung</a>
             <a href="/profil">Profil</a>
+            @if(isset($isAdmin) && $isAdmin)
+                <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form-beranda').submit();">Logout</a>
+                <form id="logout-form-beranda" action="/logout" method="POST" style="display:none;">
+                    @csrf
+                </form>
+            @endif
         </nav>
     <div class="main-menu-wrap">
         <div class="main-menu-title">Jenis Buku Apa Yang Ingin Anda Baca?</div>

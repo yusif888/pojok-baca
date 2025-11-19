@@ -14,6 +14,13 @@
     <div class="katalog-container">
             <nav class="header-menu">
             <a href="/">Halaman Utama</a>
+            @if(session('is_admin', false))
+                <a href="/beranda">Beranda</a>
+                <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form-fisik').submit();">Logout</a>
+                <form id="logout-form-fisik" action="/logout" method="POST" style="display:none;">
+                    @csrf
+                </form>
+            @endif
             </nav>
             <div class="katalog-info container-center">
                 <h2>KATALOG BUKU FISIK</h2>

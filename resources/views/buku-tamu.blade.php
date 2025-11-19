@@ -9,8 +9,15 @@
 </head>
 <body class="m-0">
     <nav class="header-menu">
+        <a href="/">Halaman Utama</a>
         <a href="/beranda">Beranda</a>
-    <a href="/buku-tamu" class="active">Buku Pengunjung</a>
+        <a href="/buku-tamu" class="active">Buku Pengunjung</a>
+        @if($isAdmin)
+            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form-tamu').submit();">Logout</a>
+            <form id="logout-form-tamu" action="/logout" method="POST" style="display:none;">
+                @csrf
+            </form>
+        @endif
     </nav>
     <main class="buku-tamu-bg">
         <div class="container-center mt-40">
@@ -85,9 +92,6 @@
                         @endif
                     </div>
                 @endif
-            </div>
-            <div class="mt-20 text-right">
-                <a href="/login" class="btn-admin-login"><span class="icon">🔐</span><span>Login Admin</span></a>
             </div>
         </div>
     </main>
