@@ -9,7 +9,11 @@
 </head>
 <body class="m-0">
     <nav class="header-menu">
-        <a href="/">Halaman Utama</a>
+        @if($isAdmin)
+            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form-tamu').submit();">Halaman Utama</a>
+        @else
+            <a href="/">Halaman Utama</a>
+        @endif
         <a href="/beranda">Beranda</a>
         <a href="/buku-tamu" class="active">Buku Pengunjung</a>
         @if($isAdmin)

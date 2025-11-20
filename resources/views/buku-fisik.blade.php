@@ -13,13 +13,15 @@
     <div class="katalog-bg">
     <div class="katalog-container">
             <nav class="header-menu">
-            <a href="/">Halaman Utama</a>
             @if(session('is_admin', false))
+                <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form-fisik').submit();">Halaman Utama</a>
                 <a href="/beranda">Beranda</a>
                 <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form-fisik').submit();">Logout</a>
                 <form id="logout-form-fisik" action="/logout" method="POST" style="display:none;">
                     @csrf
                 </form>
+            @else
+                <a href="/">Halaman Utama</a>
             @endif
             </nav>
             <div class="katalog-info container-center">

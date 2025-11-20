@@ -12,7 +12,11 @@
 <body>
     <div class="beranda-bg">
         <nav class="header-menu">
-            <a href="/">Halaman Utama</a>
+            @if(isset($isAdmin) && $isAdmin)
+                <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form-beranda').submit();">Halaman Utama</a>
+            @else
+                <a href="/">Halaman Utama</a>
+            @endif
             <a href="/beranda" class="active">Beranda</a>
             <a href="/buku-tamu">Buku Pengunjung</a>
             <a href="/profil">Profil</a>

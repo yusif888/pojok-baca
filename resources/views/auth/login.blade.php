@@ -24,7 +24,6 @@
                 <input type="password" name="password" id="password" required>
             </div>
             <button type="submit">Masuk</button>
-            <div class="back-link"><a href="/buku-tamu">Kembali ke Buku Pengunjung</a></div>
         </form>
     </div>
 </body>
